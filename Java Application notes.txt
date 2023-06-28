@@ -1,0 +1,99 @@
+JAVA AUTOMATION
+
+Restart of Java application is highly important at regular intervals.
+restart the resource PC every 24 hrs (From my experience this is partially true but many times the Java application do need some time to be left alone and PC shall not launch it for few hrs, Hence tha java automation shall not work 24*7 for stable use)
+
+INTERFACING WITH JAVA APPLICATION
+Using wait stage to check if a Java element exists requires the Java Application Model tree to be traversed. Constantly accessing the model can be costly in terms of CPU efficiency, so it is advisable to adhere to the following tips:
+\
+* we shall avoise the use of wait stages that continually check for the existece of ta Java element.(This means we should not use more of the dynamic wait stage. We shall use static wait stage before searching anything or the standard practice that we use like to use wait stage before navigate stage and wait stage afetr navigate stage we sould avoide that.)
+
+Static wait stage will provide sufficient time for all the element to appear on the screen which we are searching and then searching it using dynamic wait stage is an intelligent way of developing the process.
+
+Sometimes we use dynamica wait stage that checks for multiple things at once like either this or that we should avoide doing this.(there is no point of searching for element that rarely occurs this would disturb the process, because by doing so could result in potentially costly CPU instructions).
+
+When waiting for pop-ups or other dialog windows, it is best to spy these windows using Win32 mode. That way, there is no need to access the Java Application model tree when checking for their existence.
+
+NAVIGATOR
+If you encounter any unexpected problem that prevents you from using the any spying mode, an alternative exists in the form of application Navigator. To open the navigator, you need to click on the drop down arrow next to the identify button in Application Modeller and select open Application Navigator.
+
+Once opened, the application navigator will scan the Java Application Model tree for all the elements it can find.
+It will then display a tree structured list of Java elements from which you can choose from to create your elements in Application Modeller You will notice that when you select an element in the tree it will be highlighted within the application for confirmation and its attributes will be displayed.
+
+APPLICATION WIZARD OPTIONS
+When using the application Wizard while creating your Business Object you will notice that there is an option to add some options, possibly as instructed by BluePrism support. These options may be set to modify the behavoiour of the interface with the target application or to enable special features. The can be added in a comma separated list as required. Two options exists for java applications:
+
+* Descendtree: This option causes BluePrism to search the entire Application Model Tree for elements within the target Java Application. if this option is not set., BluePrism will only directly retrieve a list of visible Java elements for each visible window in the target application. Descending the tree is usually slower, but some target applications and Java Runtime Environments can crash when using the default method.
+
+*ignorenotshowing: This option will tell BluePrism to ignore elements in the Application Model tree which are below elements which are reported to be not showing. Using this option may result in a significant performance improvement.
+
+These options can be entered in the Application Modeller Wizars screen. 
+
+JAVA ELEMENTS ATTRIBUTES
+As in the cases when dealing with other kinds of target applications, it can be considerably advantageous to use some Java element attributes. Enabling the "descentree" option may be required to enable some of the following attributes:
+
+* MatchIndex: The match index attributes allows the search to stop as soon as the elements Nth element is found. This should be used carefully because usually the search would continue looking for duplicate matches and thus eliminates an ambiguous match. Using this attribute to match elements can result in significant perfomance gains by reducing the scope of a query to the target application.
+
+*MatchReverse: The match reverse attributes simply  changes the direction of the sear ch, this can be useful if the element is at the end of the search list. The match reverse attribute is only relevant when used in combination with the match index atrribute.
+
+*AncestorCount: The ancestor count attribute is particularly useful in a tree like object model which included Active Accessibility and Java. Within these models searches along the branches of the tree can be stopped short when we are about to descend deeper that the ancestor cout. Ancestor count can be used for all application types but only provides optimisation in AA and Java.
+
+*Showing: This attributes indicates the element, the element's parent, the element's parent's parent, and so on, are all visible. Note that this does not necessarily mean the element is painted on the screen; it might be occluded by some other showing elements. Using this attributes can speed up interfacing with certain java elements.
+
+When using "decendtree" mode, significant performance gains can be achieved by using the AncestorCount, MatchIndex and MatchReverse indentifiers to limit the scope of a query.
+
+TROUBLESHOOTING
+TARGET APPLICATION CRASHES
+If elements spy correctly, but then the target application crashes when attempting to highlight or otherwise interact with those elements, the problem is likely to be caused by a flaw in the Java Access Bridge components, which have problems with large numbers (approximately 200 or more) or elements on a single screen. 
+
+You can prevent this crashing by enabling the "descendtree" target application option in Application Modeller,
+
+NAVIGATE STAGES NOT WORKING OR CAUSING BLUEPRISM TO HANG
+If the Navigate stage fails to set the value of a checkbox or radio button, you can use a write stage as an alternative, you will need to send the value "True" to the element.
+This should result in it being selected.
+
+THE SPY TOOLS DOESN'T RECOGNISE ELEMENTS
+If the spy tool does not seem to recognise elements as you hover over them, check the following common causes first:
+* Failing to reboot the target machine after installing Java Access Bridge.
+* Using the wrong Java Access Bridge version.
+
+ATTEMPTING TO WRITE TO A TEXT BOX PRODUCES AN ERROR MESSAGE
+An error message such as "Call to setTextContents failed. This method is know not to work against version 1.3.x of the Java Runntime Environment" indicates that you are trying to write to a Java text box in an application running under JRE 1.3. Unfortunately, this is impossible due to a missing implementation in the Java Access Bridge connectors that correspond to that JRE version.
+
+In all cases there is a workaround, though some thought and ingenuity may be required on the part of the user. Here is a list suggested workarounds for common problems:
+
+* General Workaround - upgrade the Java Runtime Environment (JRE). In most cases your target application should continue to function exactly as before following an upgrade, but you should consider the associated risk of any potential problems before doing so.
+
+*To work around a writing problem - If you are having a problem writing data to an element, you may send keystrokes to the application instead. This involves activating the window containing the element of interest, focusing the element ready to receive keyboard input (for example by clicking on it or tabbing to it), and using a Navigate stage to send keystrokes. Such keystrokes may need to include backspace or delete in order to clear any existing data in the element.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
